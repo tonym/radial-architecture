@@ -6,7 +6,7 @@ status: draft
 
 # Radial architecture for composable commerce and modular systems
 
-### Radial architecture for composable commerce and modular systems
+## Radial architecture for composable commerce and modular systems
 
 ![Abstract illustration of a radial system with a central hub and layered spokes representing converging domains and coordinated flow.](https://cdn-images-1.medium.com/max/800/1*w9Mi19dD_qpAwc3eVLSX0A.jpeg)
 
@@ -26,7 +26,7 @@ In this model, the user interface serves as the hub because it is where the syst
 
 The future is an architecture for AI-integrated composable commerce, a model designed for clarity, scale, team structure, and the steady expansion of AI-driven features without overwhelming the application or its maintainers.
 
-### 1. Critical mass
+## 1. Critical mass
 
 Modern digital systems are a result of remarkable innovation and evolution. They were built step by step, feature by feature, over time, by people solving real constraints with the tools available to them. We decoupled frontends from backends, moved content into headless CMSes, and split monoliths into services, domains, and sometimes monorepos, building APIs for everything along the way.
 
@@ -64,7 +64,7 @@ In an AI-integrated system, it looks something like this:
 
 The best part? You don’t even have to write that.
 
-### 2. The concept
+## 2. The concept
 
 If some promises are made to be broken, others are made to be kept, and the ones that are kept somtimes require thought and effort. If distributed architecture kept its promise of modular composition and domain autonomy, it also never broke any promises it didn’t make. Nowhere did it say it would be easy to build or that it would require minimal care and feeding.
 
@@ -78,7 +78,7 @@ The first step, as many organizations are realizing, is to test new technologies
 
 Instead, we can take the existing distributed architecture and reshape it for AI integration and future success by rethinking the relationships between modules and adapting how we organize them to enable AI to operate effectively within them.
 
-### 3. Radial architecture
+## 3. Radial architecture
 
 Distributed architecture gave us modularity, but it never explained how those modules relate once the system is actually in motion. What’s missing isn’t another framework, API layer, or integration surface; it’s an architectural shape that supports dynamic behavior across domains.
 
@@ -98,7 +98,7 @@ MVC places the controller at the center of interaction, translating intent betwe
 
 Each of these patterns organizes many moving parts around a stable, opinionated center. In radial architecture, the UI takes on that central role as the system’s core domain.
 
-### 4. Rethinking and reshaping
+## 4. Rethinking and reshaping
 
 Radial architecture is about rethinking modular systems, not replacing them. It’s about consolidating and reordering existing domains so independent domains can move at their own pace and contribute their own structure. Radial architecture is as much a mindset as an implementation that reshapes how domains relate to each other, allowing AI a sure footing within each domain’s pipeline.
 
@@ -116,7 +116,7 @@ As AI becomes a first-class participant in these systems, the importance of thes
 
 What emerges is not a reinvention of distributed systems, but a refinement of how they converge. Domains still do their work and teams still own their boundaries, but instead of interfacing through integration patterns, they contribute through stable, structured channels. The hub waits at the center, gathering these shaped contributions and assembling them into an experience. The spokes define the work; the hub defines the outcome.
 
-### 5. The hub
+## 5. The hub
 
 If the spokes define the work, the hub defines what the work becomes. In a radial architecture, the hub is not just “the frontend” or “the presentation layer.” It is the experience domain, the place where everything the system knows has to resolve into something a person can understand, trust, and act on. No matter how many services, pipelines, or agents participate behind the scenes, the only version of the system that matters to a shopper is the version they can see and touch.
 
@@ -124,7 +124,7 @@ That is why, even in an era where AI conversations often treat UI as a given, th
 
 Viewed this way, the UI is not a decoration on top of the system; it is the system’s point of accountability. Radial architecture helps by giving the hub a clear contract with the rest of the system. Each spoke is responsible for delivering a well-structured contribution, such as product data optimized for a PDP, faceted results for a listing page, eligibility for a promotion, or a recommendation block tuned to a given context. The hub does not need to know how each of those results was produced; it only needs to know that when it asks, the answers arrive in a form it can compose into a coherent page or flow.
 
-### 6. Pipelines and blueprints
+## 6. Pipelines and blueprints
 
 If the hub is where everything resolves, pipelines are how everything gets there. They are the stabilizing paths between domains, the conduits each domain uses to deliver a shaped contribution the hub can trust. In a distributed system, we’re used to thinking of these conduits as integrations in which one team calls an API, transforms a payload, and passes the result to another team. Pipelines shift that thinking by turning the domain outputs into an ordered, predictable flow.
 
@@ -148,7 +148,7 @@ This is where AI finds its footing. An AI model enriching a search result or tun
 
 The pipeline then becomes the space an AI agent inhabits, the space at the edges between domains, and the system hub where the flow of work is both dynamic and deterministic, governed by the context of the blueprints.
 
-### 7. Agents
+## 7. Agents
 
 If pipelines are where work gets done, and blueprints define the shape of work that can be done, then agents are the workers who do it.
 
@@ -162,7 +162,7 @@ Radial architecture takes a complementary approach. Instead of relying solely on
 
 Understanding agents as workers inside a pipeline is necessary, but not sufficient. Reliable operation also depends on how those pipelines are created, validated, and advanced. That responsibility belongs to a different class of agent, the orchestrating agent.
 
-#### Orchestrating agents
+### Orchestrating agents
 
 If pipelines represent a sequence of tasks toward a desired outcome, then orchestration is the act of deciding what those tasks are, in what order, and under what conditions they may proceed.
 
@@ -172,7 +172,7 @@ After each step, the orchestrator evaluates the outcome and, guided by the bluep
 
 Blueprints play a central role here. They define the rules of a domain and the boundaries within which both the domain and its agents operate. A blueprint may include multiple domain artifacts, such as style maps in UX domains, brand or editorial constraints in content domains, validation rules in storefront domains, etc., but what is common to all is the set of contracts that define which actions are allowed and which responsibilities must be upheld.
 
-#### Governing orchestration
+### Governing orchestration
 
 If pipelines and contracts constrain worker agents, how is the orchestrator itself governed?
 
@@ -192,7 +192,7 @@ import { contract } from 'blueprint';// Create an array of actionsconst actions 
 
 Here, the orchestrator follows a governed path. Every action is declared, validated, and evaluated. Failure modes are explicit, and escalation paths are known. The pipeline advances only when allowed to do so, resulting in structured autonomy.
 
-#### Agents in context
+### Agents in context
 
 In radial architecture, agents do not replace systems, teams, or workflows. They inhabit the spaces between them. Pipelines are the environments in which agents operate, and blueprints provide the shared context that makes their behavior legible and trustworthy.
 
@@ -206,7 +206,7 @@ AI accelerates work, but acceleration without structure amplifies risk. By groun
 > A code example of a pipeline substrate, https://github.com/tonym/stably/.
 
 [https://github.com/tonym/stably/](https://github.com/tonym/stably/)
-### 8. User experience
+## 8. User experience
 
 A core idea of radial architecture is that ecosystems, distributed systems unified through integrations, collapse into a single, coherent system at the point of experience. In a truly unified system, there are no longer discrete teams producing packaged outputs for other teams to consume. The most visible example of this shift is the user experience itself, and the notable absence of a traditional design system as a standalone artifact.
 
@@ -234,7 +234,7 @@ Design remains a distinct craft, with its own expertise, judgment, and responsib
 
 Design systems evolve into the shape they should have had all along as members, not providers. They stop acting like OEM vendors supplying parts and start behaving like first-class domains contributing intent. The result is tighter collaboration, less drift, and a user experience that can evolve continuously without sacrificing coherence or trust.
 
-### 9. Composition
+## 9. Composition
 
 On the opposite side of the distributed model is content. The words and pictures that fill the user experience by populating slots in components in a design system library. For composable commerce, however, content is not merely marketing or filler; it is the composition itself, built from product descriptions, pictures, user flows, and the written word.
 
@@ -264,7 +264,7 @@ In this model, the hub never hopes that domains will stay in sync. It tells them
 
 The interface without composition is a guess. Composition without an interface is an inert structure. But neither is responsible for keeping the other in step. That responsibility belongs to the architecture itself, enforced through pipelines and resolved at the hub, where the experience is assembled centrally. Accountability is unavoidable in a way that enables AI to participate meaningfully.
 
-### 10. The storefront
+## 10. The storefront
 
 For online commerce, the storefront is where money is made. In composable commerce, the storefront is often a single-page application built with a modern framework, hosted in the cloud, and API-driven. Yet the choice of frontend technology, the storefront UI, seems like choosing from a menu of one item. In other words, are we giving it enough thought based on what it has to do rather than familiarity with what’s available?
 
@@ -286,7 +286,7 @@ How that resolution happens is a matter of implementation and may look like a tr
 
 It’s an easy step beyond that to customized outcomes suited to user behavior and emerging patterns. Imagine if agents were interpreting intent, still bound by contract, and surfacing not just targeted products but targeted compositions. The path to the user is resolved on the ground by the actual implementation. Still, the underlying system architecture adapts well to changing imperatives in ways API-driven systems can’t. In other words, the shape of the data from a given endpoint does not determine the user experience; it is consumed by it.
 
-### 11. Case study: PDP
+## 11. Case study: PDP
 
 If all the possibilities of radial architecture inspire imagination or sound like a pipe dream, they remain grounded in the reality of modern engineering. We still need applications in the cloud; they still need remote APIs and asynchronous fetching, state management is just as important, and hydration remains the latest aspect of web applications that needs improvement.
 
@@ -296,7 +296,7 @@ To understand how we can build a PDP-like page with a radial architecture, let�
 
 These are artifact-driven assemblies. I need the NPM package with the components or other parts like state management, remote fetching, etc. A simple declaration of what those parts are isn’t enough. So the fundamental constraint isn’t the non-determinism of integration, but the fact that all code has to exist at the time of integration. Therefore, the composability of a storefront involves building it with decoupled parts, yes, but not composing them via CMS output. Instead, the CMS only validates the composition where it should define it.
 
-#### Establishing truth
+### Establishing truth
 
 Let’s flip the script. Instead of building a storefront application, let’s write a contract for agents to do it. It’s nothing magical, just prompt coding abstracted into system pipelines through a contract that describes what agents can do. For simplicity and focus on architecture, let’s assume agent protocols and instructions already exist.
 
@@ -334,7 +334,7 @@ The orchestrator now knows which modules are required to compose the PDP, where 
 
 Further actions will get those modules from the UX domain, which may be distributed as traditional packages, generated at build time from a contract, or a combination of both. The point is, they are available in some form, even if the hub domain has to generate them from component blueprints.
 
-#### Build time composition
+### Build time composition
 
 What’s really happening in a CMS-driven storefront today is that composition logic lives in runtime code. A page renderer fetches a CMS document, walks its module list, and runs it through a component registry, often a switch statement, a mapping table, or a dynamic import layer that decides which UI artifacts to load based on _type, taxonomy, and a growing set of edge cases. That “page factory” works, but it’s expensive. It adds runtime overhead and concentrates architectural complexity within the app, where every new module, variation, or exception becomes another conditional branch to maintain.
 
@@ -345,7 +345,7 @@ The only thing left for the runtime to do is fetch the product data and populate
 
 ![Product detail page showing a single-breasted blazer with image gallery, pricing, color and size selectors, add-to-cart controls, and expandable product details.](https://cdn-images-1.medium.com/max/800/1*DcCsueuTppuJ2ziS5XvgKg.png)
 
-### 12. Evals and testing
+## 12. Evals and testing
 
 We think of evals as tests for agents, and they are. Like unit tests, they test small parts of the system, ensuring predictability and consistent AI outcomes.
 
@@ -366,7 +366,7 @@ Eval domain output is an assessment, more than a pass/fail grade, but not a pres
 
 The eval domain can also serve the traditional responsibilities of QA. If alignment is assessed before a build, output could be tested in similar ways with AI worker agents replacing e2e tests or traditional QA tools. Where those boundaries lie is a matter of implementation, meaning that the eval domain has no predefined prescriptive boundaries. It serves the purpose of all testing by providing enough to satisfy confidence in the system, but the system's purpose and shape determine how that confidence is achieved.
 
-### 13. Case study: PLP
+## 13. Case study: PLP
 
 The PLP is one of those deceptively complex pages that implementers sometimes underestimate. On the surface, it’s a filtered list of products. In reality, it’s a web of state management rules and intertwined reactions to changes.
 
@@ -413,7 +413,7 @@ Not every system needs an adapters domain, but if your initial PLP is a list of 
 
 For data-heavy B2B PLPs, this could be a client-side performance optimization. The best part is that all of this, composition, theming, state, etc., happens before the assembled application enters the CI/CD pipeline.
 
-### 14. Environments and CI/CD
+## 14. Environments and CI/CD
 
 One of the easiest misunderstandings of radial architecture is to mistake its pipelines as a replacement for CI/CD. While a reasonable concern, the opposite is true. CI/CD does not go away.
 
@@ -423,7 +423,7 @@ In a distributed architecture, CI/CD is often asked to do too much. Pipelines, i
 
 Radial architecture patterns, the blueprints, pipelines, agents, orchestration, evals, etc., happen before the application enters CI/CD. By the time the storefront reaches CI, it should already be a resolved artifact.
 
-#### What enters CI/CD
+### What enters CI/CD
 
 In a radial system, the hub's output is a prepared application. Composition has already been resolved against content blueprints, UX modules have already been selected, aligned, or substituted, and known mismatches have already been evaluated and handled according to policy. The experience's structure has already been validated against contracts.
 
@@ -431,7 +431,7 @@ From the CI pipeline’s perspective, nothing about this looks exotic. It receiv
 
 Placing agents in the CI pipeline is an upgrade, but the pipeline chores are the same. The same AI patterns in radial pipelines also apply to CI pipelines, enabling the reduction of rule-based YAML to instruction- and contract-based prompts.
 
-#### Local development
+### Local development
 
 Local development benefits from the same separation. In a traditional composable system, developers often need to run partial systems, mock CMS responses, stub APIs, and mentally simulate how composition will behave at runtime. Much of this work exists to compensate for the fact that composition is deferred until the application is already running.
 
@@ -439,7 +439,7 @@ In a radial architecture, local development starts with resolved intent. A devel
 
 Local development becomes about iterating on behavior and presentation within a resolved structure, rather than debugging the mechanics of assembly. When something changes upstream, such as content structure, UX capability, or domain availability, it enters the developer workflow as a contract change, not a runtime surprise.
 
-#### Promotion and environments
+### Promotion and environments
 
 Because intent is resolved ahead of CI/CD, environment promotion becomes simpler. Gone is the need to maintain parallel composition logic across staging and production. There is no need for environment-specific conditionals to decide how a page should assemble itself or for runtime feature flags to hide or test unresolved decisions.
 
@@ -447,7 +447,7 @@ If the system cannot be assembled coherently, it should fail before promotion in
 
 CI/CD remains the gatekeeper of quality and stability, but it is no longer the place where architectural uncertainty accumulates. Radial pipelines resolve what the system is, and CI/CD determines whether it is ready to ship. Keeping those responsibilities distinct is what allows AI to participate meaningfully without turning the delivery process into an opaque experiment.
 
-### 15. Beyond the repo
+## 15. Beyond the repo
 
 How do agents communicate with domains? So far, we’ve seen how pipelines can bridge domains and have generally assumed the presence of some API. In reality, this is true; however, there are better tools for domain access.
 
@@ -459,7 +459,7 @@ For traditional APIs, an adapter domain could provide MCP tools to access extern
 
 Additionally, for external services that have MCP servers, there are a growing number of MCP gateways like Smithery and Composio that allow access to a registry of MCP servers or that allow you to create or configure MCP access to services that don’t provide official MCP servers.
 
-#### Localization
+### Localization
 
 Localization is often treated as a late-stage concern in modern systems. Strings are externalized, translation files are generated, and region-specific overrides are layered on top of an experience that was already designed, built, and composed. This approach works well enough for static interfaces, but it starts breaking down as soon as localization affects structure, behavior, or meaning beyond language.
 
@@ -483,7 +483,7 @@ It can work the other way, too. Instead of restricting for regional compliance, 
 
 Seen this way, localization becomes less about translation files and more about intent alignment. A localized experience is not a single application with switches; it is a family of resolved outcomes, each assembled according to the same architectural rules but shaped by different domain contributions. Now, localization absorbs rules for reporting and metrics as well as commerce.
 
-#### Accessibility
+### Accessibility
 
 Accessibility is often framed as a set of requirements to be satisfied at the edges of a system. Teams audit components, add ARIA attributes, improve color contrast, and fix keyboard navigation issues late in the development cycle. These efforts are necessary, but they are rarely sufficient. Accessibility breaks down not because teams do not care, but because responsibility for it is diffuse, reactive, and embedded too deeply in implementation details.
 
@@ -503,7 +503,7 @@ One of the most important shifts is that accessibility moves out of “best effo
 
 Seen this way, accessibility is not a compliance tax or a late-stage concern. It is a quality of intent. A system that cannot express accessibility constraints structurally cannot consistently guarantee them, especially as AI-generated behavior, dynamic composition, and personalization increase variability.
 
-#### Scaling
+### Scaling
 
 Scaling is often discussed in terms of traffic, throughput, or infrastructure. While those concerns matter, they are rarely the first limits organizations hit as systems grow. More often, scaling fails at the coordination level. As domains multiply, markets diverge, and product lines expand, the difficulty is no longer serving more users, but keeping outcomes coherent across a growing family of systems.
 
@@ -521,13 +521,13 @@ At this point, distributed systems could make sense. Instead of extending domain
 
 Scaling a radial system, then, is less about making the hub bigger and more about keeping the spokes honest to the point that a hub system is established and regional or brand systems become spokes of their own. An extensive system is not one with many services; it’s one with many intentions. Radial architecture scales by giving those intentions a place to converge, at any level, without requiring them to become the same.
 
-### 16. Governance
+## 16. Governance
 
 In distributed architectures, governance often emerges as an external influence. Teams rely on documentation, versioning discipline, and social contracts to keep systems aligned. When those fail, governance arrives as review boards, approval gates, and escalation paths layered on top of an architecture that was never designed to enforce structural alignment.
 
 Radial architecture shifts governance from process to structure. Because domains participate through contracts and pipelines rather than informal integrations, governance becomes a question of what is allowed to converge, where it converges, and how divergence is handled. These rules are no longer buried in tribal knowledge or CI YAML; instead, they are expressed directly in blueprints, validated by substrates, and observed by evals.
 
-#### Who owns the hub?
+### Who owns the hub?
 
 In an enterprise commerce system, the hub is typically the storefront. Revenue, conversion, trust, accessibility, and brand all resolve there. When something breaks, the storefront is where it becomes visible first. That does not imply frontend teams suddenly own everything.
 
@@ -535,7 +535,7 @@ Owning the hub means owning resolution, not production. The hub defines how cont
 
 In other verticals, however, the hub may be different. A CDN or image optimization platform may place the delivery edge at the center. An observability platform may treat evals and telemetry as the hub. A logistics or fulfillment system may converge on a warehouse or routing engine. Radial architecture does not prescribe the hub; it reveals it based on where outcomes resolve.
 
-#### Domain autonomy, preserved
+### Domain autonomy, preserved
 
 A common fear of centralized models is loss of autonomy. Radial architecture avoids this by making autonomy explicit rather than implicit. Domains remain free to evolve internally, content teams can restructure taxonomies, and UX teams can redesign components. None of these changes requires synchronized releases across the organization.
 
@@ -543,7 +543,7 @@ What must remain stable are the blueprints each domain publishes. Blueprints and
 
 If a domain breaks its contract, the system does not fail silently. Pipelines fail validation and evals surface misalignment. Governance becomes observable behavior when orchestrators adapt, degrade, or escalate in accordance with policy.
 
-#### Drift is expected
+### Drift is expected
 
 One of the most critical governance shifts in radial architecture is how it treats drift. In traditional systems, drift manifests as broken builds, runtime errors, or misaligned releases. Teams scramble to restore alignment after damage has already occurred.
 
@@ -551,7 +551,7 @@ Radial architecture treats drift as both inevitable and manageable. Because doma
 
 System evals exist to detect this drift early and describe it accurately. Not as pass/fail gates, but as graded assessments of what is misaligned and how severe it is, giving orchestrators and maintainers adaptation options. Consequently, governance becomes policy-driven rather than reactionary, and the governance criteria remain known and current by default; otherwise, it appears transparently as system drift.
 
-#### Editorial reality
+### Editorial reality
 
 Editorial complexity does not disappear in radial architecture; instead, it becomes visible. Taxonomies, variants, localization, and regulatory constraints still exist. In commerce systems, taxonomy is often owned by content teams, sometimes shared with merchandising or catalog teams. Radial architecture does not relocate that responsibility.
 
@@ -559,13 +559,13 @@ What changes is how editorial intent enters the system. Instead of being interpr
 
 For the sake of clarity, case studies may appear to hardcode taxonomy or page types. That is a narrative simplification, not a prescription. In real systems, taxonomy is often another CMS output, and radial pipelines accommodate that naturally.
 
-#### Governance as architecture, not oversight
+### Governance as architecture, not oversight
 
 Radial architecture treats governance as part of the system, not an external influence on it. Policies are expressed as contracts, and enforcement occurs through validation. Visibility comes from evals; adaptation is handled by orchestration; and humans remain in the loop, but they are no longer required to manually hold the system together.
 
 This is leadership leverage, not marginalization. When governance is structural, teams can move faster without fear because boundaries are enforced mechanically. Executives can assess risk and ROI without decoding tooling sprawl. Architects can evolve systems without relying on heroics.
 
-#### Team alignment and workflow
+### Team alignment and workflow
 
 One source of friction in modern systems is workflow. While our architectures have become distributed and modular, our workflows often remain linear. Even in organizations that embrace frameworks like team topologies, where teams align with system domains rather than aligning system domains with operations teams, work still flows as a stream through one domain to another until it eventually deploys to production.
 
@@ -579,7 +579,7 @@ The result is a fundamental shift in which work advances because it is structura
 
 Most importantly, alignment is no longer enforced socially. When a content team introduces a new composition, the system can immediately assess whether UX supports it. When UX ships a new module, evals can surface where it is unused or misaligned. The hub becomes the place where all of this resolves because the architecture demands convergence.
 
-#### Debt as a structural signal
+### Debt as a structural signal
 
 Technical debt, design debt, and editorial debt are often discussed as failures of discipline or prioritization. In practice, they are usually symptoms of deeper issues, such as misalignment between how work is organized and how the system actually resolves outcomes.
 
@@ -595,7 +595,7 @@ In this way, debt stops being a time sink or legacy gap and becomes part of the 
 
 Governance, in this model, is something the system does for the teams rather than something teams do to the system. By declaring intent, enforcing convergence, and observing drift where it actually matters, radial architecture turns governance from a periodic intervention into a continuous property of the system itself.
 
-### Epilogue. First to market
+## Epilogue. First to market
 
 If radial architecture seems vast and diverse, it really isn’t. The good news, especially for the enterprise, is that the existing distributed architecture is where you start. There’s no need to abandon years of development, infrastructure, and workflow. Clean up the boundaries, pay down some debt, and look to AI as a tool that ensures convergence without build-time integration.
 
