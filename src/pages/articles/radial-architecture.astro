@@ -1,0 +1,13 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import Content, { frontmatter } from '../../content/articles/radial-architecture.mdx';
+
+export const prerender = true;
+
+const title = frontmatter?.title ?? 'Radial Architecture';
+const description = frontmatter?.description;
+---
+
+<ArticleLayout title={title} description={description}>
+  <Content />
+</ArticleLayout>
