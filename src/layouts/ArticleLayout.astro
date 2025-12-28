@@ -11,13 +11,8 @@ const { title, description } = Astro.props;
 
 <BaseLayout title={title ? `${title} · Radial Architecture` : 'Radial Architecture'}>
   <article class="article">
-    <header class="header">
-      {title ? <h1 class="title">{title}</h1> : null}
-      {description ? <p class="description">{description}</p> : null}
-    </header>
-
     <div class="body">
-      <!-- Left navigation will live here (ChatKit stays in the right column at the page level). -->
+      <!-- Left navigation will live here. -->
       <aside class="toc" aria-label="On this page">
         <div class="tocInner">
           <!-- intentionally empty for v1; populated once we extract headings -->
@@ -27,6 +22,13 @@ const { title, description } = Astro.props;
       <div class="content">
         <slot />
       </div>
+
+      <!-- Chatkit will live here. -->
+      <aside class="toc" aria-label="On this page">
+        <div class="tocInner">
+          <!-- intentionally empty for v1; populated once we add AI chat -->
+        </div>
+      </aside>
     </div>
   </article>
 </BaseLayout>
@@ -76,5 +78,17 @@ const { title, description } = Astro.props;
     max-width: 75ch;
   }
 
-  @media (max-width: 960px) {
-    .arti
+@media (max-width: 960px) {
+    .article {
+      padding: 2.25rem 1.25rem;
+    }
+
+    .body {
+      grid-template-columns: 1fr;
+    }
+
+    .toc {
+      display: none;
+    }
+  }
+</style>
