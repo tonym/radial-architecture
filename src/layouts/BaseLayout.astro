@@ -1,0 +1,30 @@
+---
+interface Props {
+  title?: string;
+}
+
+const { title = 'Radial Architecture' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+
+    <meta name="generator" content={Astro.generator} />
+
+    <!--
+      Intentionally minimal.
+      Typography, color, and layout rules will be introduced deliberately.
+    -->
+  </head>
+
+  <body>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
