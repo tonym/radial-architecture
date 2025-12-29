@@ -54,13 +54,131 @@ The shift begins when we let the architecture participate in the work. Distribut
 
 What does that actually mean? Consider a modern CI/CD pipeline and what it takes to describe the pipeline's intent. If using a tool like CircleCI, the YAML file for a job to checkout, lint, build, test, and deploy to production looks something like this:
 
-```
-version: 2.1orbs:  node: circleci/node@5.0.1  slack: circleci/slack@4.12.5jobs:  checkout_code:    docker:      - image: cimg/node:20.9    steps:      - checkout      - restore_cache:          keys:            - v1-npm-deps-{{ checksum "package-lock.json" }}            - v1-npm-deps-      - run:          name: Install dependencies          command: npm ci      - save_cache:          key: v1-npm-deps-{{ checksum "package-lock.json" }}          paths:            - ~/.npm      - persist_to_workspace:          root: .          paths:            - .  build:    docker:      - image: cimg/node:20.9    steps:      - attach_workspace:          at: .      - run:          name: Build application          command: npm run build      - persist_to_workspace:          root: .          paths:            - dist            - node_modules  lint:    docker:      - image: cimg/node:20.9    steps:      - attach_workspace:          at: .      - run:          name: Lint code          command: npm run lint  test:    docker:      - image: cimg/node:20.9    parallelism: 3    steps:      - attach_workspace:          at: .      - run:          name: Run tests in parallel          command: |            CIRCLE_NODE_INDEX=${CIRCLE_NODE_INDEX:-0}            npm run test -- --ci --runInBand      - store_test_results:          path: test-results      - store_artifacts:          path: coverage  deploy:    docker:      - image: cimg/base:stable    steps:      - attach_workspace:          at: .      - run:          name: Authenticate with cloud provider          command: |            echo $GCLOUD_SERVICE_KEY | base64 --decode > gcloud-key.json            gcloud auth activate-service-account --key-file=gcloud-key.json            gcloud --quiet config set project $GCLOUD_PROJECT_ID      - run:          name: Deploy to production          command: ./scripts/deploy.sh      - slack/notify:          event: pass          template: basic_success      - slack/notify:          event: fail          template: basic_failworkflows:  version: 2  build_test_deploy:    jobs:      - checkout_code      - lint:          requires:            - checkout_code      - build:          requires:            - checkout_code      - test:          requires:            - build      - deploy:          requires:            - lint            - test        filters:          branches:            only: main
+```yaml
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.1
+  slack: circleci/slack@4.12.5
+
+jobs:
+  checkout_code:
+    docker:
+      - image: cimg/node:20.9
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-npm-deps-{{ checksum "package-lock.json" }}
+            - v1-npm-deps-
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - save_cache:
+          key: v1-npm-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  build:
+    docker:
+      - image: cimg/node:20.9
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Build application
+          command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+            - node_modules
+
+  lint:
+    docker:
+      - image: cimg/node:20.9
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Lint code
+          command: npm run lint
+
+  test:
+    docker:
+      - image: cimg/node:20.9
+    parallelism: 3
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Run tests in parallel
+          command: |
+            CIRCLE_NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
+            npm run test -- --ci --runInBand
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: coverage
+
+  deploy:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Authenticate with cloud provider
+          command: |
+            echo $GCLOUD_SERVICE_KEY | base64 --decode > gcloud-key.json
+            gcloud auth activate-service-account --key-file=gcloud-key.json
+            gcloud --quiet config set project $GCLOUD_PROJECT_ID
+      - run:
+          name: Deploy to production
+          command: ./scripts/deploy.sh
+      - slack/notify:
+          event: pass
+          template: basic_success
+      - slack/notify:
+          event: fail
+          template: basic_fail
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - checkout_code
+      - lint:
+          requires:
+            - checkout_code
+      - build:
+          requires:
+            - checkout_code
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - lint
+            - test
+        filters:
+          branches:
+            only: main
 ```
 
 In an AI-integrated system, it looks something like this:
 
-> You are a build agent in a CI pipeline.Check out the repository.Run the build.Run the tests.If they pass, push to production.
+> You are a build agent in a CI pipeline.
+>
+> Check out the repository.
+>
+> Run the build.Run the tests.
+>
+> If they pass, push to production.
 
 The best part? You don't even have to write that.
 
@@ -186,8 +304,43 @@ In this arrangement, the orchestrator is bound by the substrate's governance, wh
 
 Consider a simplified orchestration flow:
 
-```
-import { contract } from 'blueprint';// Create an array of actionsconst actions = [ ... ];// Validate the actions against the contractconst structure = validatePipeline(actions, contract);// Create the pipeline. // The generatePipeline function takes the array of actions and returns a generator function.const pipeline = generatePipeline(actions);// Consume the pipelinelet current = pipeline.next();while (!current.done) {  const action = current.value;  // Validate the action  const perAction = validateAction(action, contract);  if (perAction.error) {    'Use action resolution flow and escalate to human';  }  // Delegate the action  const result = await workerAgent.do(action);  // Evaluate the result  const outcome = eval(result);  if (outcome.error) {    'Use outcome resolution flow and escalate to human';  }  // Yield the next step in the pipeline  current = pipeline.next();}
+```typescript
+import { contract } from 'blueprint';
+
+// Create an array of actions
+const actions = [ ... ];
+
+// Validate the actions against the contract
+const structure = validatePipeline(actions, contract);
+
+// Create the pipeline.
+// The generatePipeline function takes the array of actions and returns a generator function.
+const pipeline = generatePipeline(actions);
+
+// Consume the pipeline
+let current = pipeline.next();
+
+while (!current.done) {
+  const action = current.value;
+
+  // Validate the action
+  const perAction = validateAction(action, contract);
+  if (perAction.error) {
+    'Use action resolution flow and escalate to human';
+  }
+
+  // Delegate the action
+  const result = await workerAgent.do(action);
+
+  // Evaluate the result
+  const outcome = eval(result);
+  if (outcome.error) {
+    'Use outcome resolution flow and escalate to human';
+  }
+
+  // Yield the next step in the pipeline
+  current = pipeline.next();
+}
 ```
 
 Here, the orchestrator follows a governed path. Every action is declared, validated, and evaluated. Failure modes are explicit, and escalation paths are known. The pipeline advances only when allowed to do so, resulting in structured autonomy.
@@ -199,13 +352,12 @@ In radial architecture, agents do not replace systems, teams, or workflows. They
 AI accelerates work, but acceleration without structure amplifies risk. By grounding agents in explicit contracts and deterministic flows, the architecture absorbs that acceleration without losing coherence. Together, they form a system in which intelligence can operate freely without surprising the user.
 
 > Further reading:
-
+>
 > Using TypeScript generators in composable systems, a deeper explanation of generators and how they can be used to govern agents in workflows.
+> [Using TypeScript generators in composable systems](https://medium.com/gitconnected/using-typescript-generators-in-composable-systems-78d056db99cd)
+>
+> A code example of a pipeline substrate, [https://github.com/tonym/stably/](https://github.com/tonym/stably/),
 
-[Using TypeScript generators in composable systems](https://medium.com/gitconnected/using-typescript-generators-in-composable-systems-78d056db99cd)
-> A code example of a pipeline substrate, https://github.com/tonym/stably/.
-
-[https://github.com/tonym/stably/](https://github.com/tonym/stably/)
 ## 8. User experience
 
 A core idea of radial architecture is that ecosystems, distributed systems unified through integrations, collapse into a single, coherent system at the point of experience. In a truly unified system, there are no longer discrete teams producing packaged outputs for other teams to consume. The most visible example of this shift is the user experience itself, and the notable absence of a traditional design system as a standalone artifact.
@@ -304,8 +456,88 @@ If all spokes of radial architecture converge at the hub, then the hub is respon
 
 Understanding that this is a simplified example for the demonstration of architecture, not a prescription for implementation, we can imagine a hub contract for a PDP to be a JSON object and look something like:
 
-```
-{  id: 'storefront.resolveExperience',  steps: [    {      id: 'preflightAlignment',      actionType: 'eval.validateAlignment'    },    {      id: 'resolvePageIntent',      actionType: 'storefront.resolveIntent'    },    {      id: 'fetchCompositionBlueprint',      actionType: 'content.pageBlueprint'    },    {      id: 'resolveUxModules',      actionType: 'ux.resolveModules'    },    {      id: 'resolveDataRequirements',      actionType: 'content.resolveData'    },    {      id: 'assembleExperience',      actionType: 'storefront.assembleExperience',      terminal: true    }  ],  transitions: [    {      from: 'preflightAlignment',      to: ['resolvePageIntent']    },    {      from: 'resolvePageIntent',      to: ['fetchCompositionBlueprint']    },    {      from: 'fetchCompositionBlueprint',      to: ['resolveUxModules']    },    {      from: 'resolveUxModules',      to: ['resolveDataRequirements']    },    {      from: 'resolveDataRequirements',      to: ['assembleExperience']    }  ],  structural: {    requiredSteps: [      'preflightAlignment',      'resolvePageIntent',      'fetchCompositionBlueprint',      'assembleExperience'    ],    orderConstraints: [      {        before: 'resolvePageIntent',        after: 'preflightAlignment'      },      {        before: 'assembleExperience',        after: 'preflightAlignment'      }    ],    allowDynamicInsertion: true  }}
+```typescript
+{
+  id: 'storefront.resolveExperience',
+
+  steps: [
+    {
+      id: 'preflightAlignment',
+      actionType: 'eval.validateAlignment'
+    },
+
+    {
+      id: 'resolvePageIntent',
+      actionType: 'storefront.resolveIntent'
+    },
+
+    {
+      id: 'fetchCompositionBlueprint',
+      actionType: 'content.pageBlueprint'
+    },
+
+    {
+      id: 'resolveUxModules',
+      actionType: 'ux.resolveModules'
+    },
+
+    {
+      id: 'resolveDataRequirements',
+      actionType: 'content.resolveData'
+    },
+
+    {
+      id: 'assembleExperience',
+      actionType: 'storefront.assembleExperience',
+      terminal: true
+    }
+  ],
+
+  transitions: [
+    {
+      from: 'preflightAlignment',
+      to: ['resolvePageIntent']
+    },
+    {
+      from: 'resolvePageIntent',
+      to: ['fetchCompositionBlueprint']
+    },
+    {
+      from: 'fetchCompositionBlueprint',
+      to: ['resolveUxModules']
+    },
+    {
+      from: 'resolveUxModules',
+      to: ['resolveDataRequirements']
+    },
+    {
+      from: 'resolveDataRequirements',
+      to: ['assembleExperience']
+    }
+  ],
+
+  structural: {
+    requiredSteps: [
+      'preflightAlignment',
+      'resolvePageIntent',
+      'fetchCompositionBlueprint',
+      'assembleExperience'
+    ],
+
+    orderConstraints: [
+      {
+        before: 'resolvePageIntent',
+        after: 'preflightAlignment'
+      },
+      {
+        before: 'assembleExperience',
+        after: 'preflightAlignment'
+      }
+    ],
+
+    allowDynamicInsertion: true
+  }
+}
 ```
 
 These are the actions an orchestrator can use to create a pipeline and iterate through it. Depending on the implementation or the substrate in use, the shape may change, but the intent remains. Declare the allowed actions and their dependencies in a way that an impartial authority can validate.
@@ -319,15 +551,73 @@ Back in the hub, an orchestrator is prompted to build a PDP and generates a pipe
 
 When the content.pageBlueprint action is delegated to a worker agent, it could look like:
 
-`content.pageBlueprint`
-```
+```typescript
 { type: 'content.pageBlueprint', payload: { page: 'PDP' } }
 ```
 
 The worker agent retrieves the PDP blueprint from the content domain (in this case, Sanity) and returns it to the orchestrator.
 
-```
-{  "_type": "page",  "pageType": "PDP",  "title": "Default Product Detail Page",  "modules": [    {      "_type": "productGallery",      "slot": "product.media",      "markers": {        "images": "product.images"      }    },    {      "_type": "productSummary",      "slot": "product.summary",      "markers": {        "title": "product.title",        "price": "product.price",        "rating": "product.rating",        "shortDescription": "product.summary"      }    },    {      "_type": "productOptions",      "slot": "product.options",      "drivenBy": {        "taxonomy": "product.category"      },      "markers": {        "options": "product.options"      }    },    {      "_type": "addToCart",      "slot": "purchase.action",      "markers": {        "sku": "product.sku",        "availability": "inventory.status"      }    },    {      "_type": "accordionGroup",      "slot": "product.details",      "items": [        {          "label": "Details",          "marker": "product.details"        },        {          "label": "Fit & Care",          "marker": "product.care"        },        {          "label": "Shipping & Returns",          "marker": "commerce.shippingPolicy"        }      ]    }  ]}
+```json
+{
+  "_type": "page",
+  "pageType": "PDP",
+  "title": "Default Product Detail Page",
+  "modules": [
+    {
+      "_type": "productGallery",
+      "slot": "product.media",
+      "markers": {
+        "images": "product.images"
+      }
+    },
+    {
+      "_type": "productSummary",
+      "slot": "product.summary",
+      "markers": {
+        "title": "product.title",
+        "price": "product.price",
+        "rating": "product.rating",
+        "shortDescription": "product.summary"
+      }
+    },
+    {
+      "_type": "productOptions",
+      "slot": "product.options",
+      "drivenBy": {
+        "taxonomy": "product.category"
+      },
+      "markers": {
+        "options": "product.options"
+      }
+    },
+    {
+      "_type": "addToCart",
+      "slot": "purchase.action",
+      "markers": {
+        "sku": "product.sku",
+        "availability": "inventory.status"
+      }
+    },
+    {
+      "_type": "accordionGroup",
+      "slot": "product.details",
+      "items": [
+        {
+          "label": "Details",
+          "marker": "product.details"
+        },
+        {
+          "label": "Fit & Care",
+          "marker": "product.care"
+        },
+        {
+          "label": "Shipping & Returns",
+          "marker": "commerce.shippingPolicy"
+        }
+      ]
+    }
+  ]
+}
 ```
 
 The orchestrator now knows which modules are required to compose the PDP, where data comes from, and how to place it in the page components.
@@ -336,9 +626,8 @@ Further actions will get those modules from the UX domain, which may be distribu
 
 ### Build time composition
 
-What's really happening in a CMS-driven storefront today is that composition logic lives in runtime code. A page renderer fetches a CMS document, walks its module list, and runs it through a component registry, often a switch statement, a mapping table, or a dynamic import layer that decides which UI artifacts to load based on _type, taxonomy, and a growing set of edge cases. That “page factory” works, but it's expensive. It adds runtime overhead and concentrates architectural complexity within the app, where every new module, variation, or exception becomes another conditional branch to maintain.
+What's really happening in a CMS-driven storefront today is that composition logic lives in runtime code. A page renderer fetches a CMS document, walks its module list, and runs it through a component registry, often a switch statement, a mapping table, or a dynamic import layer that decides which UI artifacts to load based on `_type`, taxonomy, and a growing set of edge cases. That “page factory” works, but it's expensive. It adds runtime overhead and concentrates architectural complexity within the app, where every new module, variation, or exception becomes another conditional branch to maintain.
 
-`_type`
 Radial architecture moves that factory out of runtime and into a contract-governed pipeline. Instead of fetching the composition at request time and assembling the experience on the fly, the orchestrator resolves the blueprint, verifies alignment, resolves the required modules and data markers, and delegates assembly to a worker agent before the experience is served. The storefront still looks like a normal app in the cloud, but it no longer has to anticipate how to compose a page. The page is built to the blueprint ahead of time, validated against declared contracts, and deployed as an artifact that the runtime can serve directly.
 
 The only thing left for the runtime to do is fetch the product data and populate the page.
@@ -612,14 +901,3 @@ For leaders and executives, the product or service vision becomes more certain a
 The result is a system that scales by curating an ecosystem where AI can thrive as the force multiplier that it can be, and the ideas are endless. Think of pipelines as connectors to anything that has a blueprint and access. Ideally, MCP servers enable AI worker agents, but they are not a limiting factor.
 
 As systems grow more autonomous, architecture's role shifts from enforcing order to governing movement. When the system paths are explicit, AI becomes a collaborator, and scale becomes a property of the system rather than a burden on the people operating it. The future belongs not to the fastest pipelines or most intelligent agents, but to the architectures that can hold them together and accountable without losing trust. The AI hype is real, but only to the degree we want it to be, and only to the level we're willing to build it.
-
-By Tony M on December 22, 2025.
-
-[Tony M](https://medium.com/@tony.m.pdx)
-[December 22, 2025](https://medium.com/p/4ea609cb357e)
-Canonical link
-
-[Canonical link](https://medium.com/@tony.m.pdx/radial-architecture-for-composable-commerce-and-modular-systems-4ea609cb357e)
-Exported from Medium on December 23, 2025.
-
-[Medium](https://medium.com)
