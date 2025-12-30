@@ -55,7 +55,7 @@
     --font-serif: Charter, 'Bitstream Charter', Georgia, 'Times New Roman', serif;
 
     /* Sans: UI, navigation, structure */
-    --font-sans: Source Sans 3, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-sans: 'Source Sans 3', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
     /* Monospace: code only */
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
@@ -97,7 +97,7 @@
   }
 
   body {
-    font-size: 1rem;
+    font-size: 1.125rem;
     line-height: var(--line-height-base);
     font-family: var(--font-serif);
   }
@@ -109,6 +109,7 @@
   h5,
   h6 {
     font-family: var(--font-sans);
+    font-weight: var(--font-weight-medium);
   }
 
   blockquote {
