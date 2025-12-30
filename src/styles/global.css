@@ -28,10 +28,46 @@
 @layer base {
   :root {
     /* ----------------------------------------------------------------------
+       Color
+       ---------------------------------------------------------------------- */
+    /* Core surfaces */
+    --color-bg: #fdfdfd;
+    --color-bg-secondary: #f4f4f4;
+
+    /* Text */
+    --color-text: #222222;
+    --color-muted: #555555;
+
+    /* Structure */
+    --color-weak: #eeeeee;
+    --color-border: #dddddd;
+
+    /* Accents */
+    --color-accent: #1a5cff; /* links, focus states */
+    --color-brand: #0b1f33; /* top nav / site name only */
+
+    /* ----------------------------------------------------------------------
        Typography
        ---------------------------------------------------------------------- */
     --font-size-base: 16px;
     --line-height-base: 1.6;
+    /* Serif: long-form reading */
+    --font-serif: Charter, 'Bitstream Charter', Georgia, 'Times New Roman', serif;
+
+    /* Sans: UI, navigation, structure */
+    --font-sans: Source Sans 3, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    /* Monospace: code only */
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+
+    --line-height-body: 1.6;
+    --line-height-ui: 1.4;
+
+    --measure-reading: 68ch;
 
     /* ----------------------------------------------------------------------
        Spacing system
@@ -63,18 +99,16 @@
   body {
     font-size: 1rem;
     line-height: var(--line-height-base);
-    font-family:
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      Oxygen,
-      Ubuntu,
-      Cantarell,
-      'Helvetica Neue',
-      Arial,
-      sans-serif;
+    font-family: var(--font-serif);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sans);
   }
 
   blockquote {
