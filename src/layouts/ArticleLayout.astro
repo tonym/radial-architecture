@@ -11,84 +11,17 @@ const { title, description } = Astro.props;
 
 <BaseLayout title={title ? `${title} · Radial Architecture` : 'Radial Architecture'}>
   <article class="article">
-    <div class="body">
-      <!-- Left navigation will live here. -->
-      <aside class="toc" aria-label="On this page">
-        <div class="tocInner">
-          <!-- intentionally empty for v1; populated once we extract headings -->
-        </div>
-      </aside>
-
-      <div class="content">
-        <slot />
+    <!-- Left navigation will live here. -->
+    <aside class="toc" aria-label="On this page">
+      <div class="tocInner">
+        <!-- intentionally empty for v1; populated once we extract headings -->
       </div>
+    </aside>
 
-      <!-- Chatkit will live here. -->
-      <aside>
-        <div class="tocInner">
-          <!-- intentionally empty for v1; populated once we add AI chat -->
-        </div>
-      </aside>
+    <div class="content">
+      <slot />
     </div>
   </article>
 </BaseLayout>
 
-<style>
-  .article {
-    margin: 0 auto;
-    padding: 3rem 1.25rem;
-    max-width: 72rem;
-  }
-
-  .header {
-    margin: 0 0 2rem;
-  }
-
-  .title {
-    margin: 0;
-    line-height: 1.15;
-  }
-
-  .description {
-    margin: 0.75rem 0 0;
-    max-width: 60ch;
-    line-height: 1.6;
-  }
-
-  .body {
-    display: grid;
-    grid-template-columns: 16rem minmax(0, 1fr);
-    gap: 2.5rem;
-    align-items: start;
-  }
-
-  .toc {
-    position: sticky;
-    top: 1.5rem;
-  }
-
-  .tocInner {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    opacity: 0.9;
-  }
-
-  .content {
-    min-width: 0;
-    max-width: 75ch;
-  }
-
-@media (max-width: 960px) {
-    .article {
-      padding: 2.25rem 1.25rem;
-    }
-
-    .body {
-      grid-template-columns: 1fr;
-    }
-
-    .toc {
-      display: none;
-    }
-  }
-</style>
+<style></style>
