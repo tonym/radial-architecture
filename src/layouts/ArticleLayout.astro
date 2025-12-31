@@ -13,15 +13,46 @@ const { title, description } = Astro.props;
   <article class="article">
     <!-- Left navigation will live here. -->
     <aside class="toc" aria-label="On this page">
-      <div class="tocInner">
-        <!-- intentionally empty for v1; populated once we extract headings -->
-      </div>
+      <div class="toc-inner">Table of contents goes here</div>
     </aside>
 
-    <div class="content">
-      <slot />
+    <div class="workspace">
+      <div class="content">
+        <slot />
+      </div>
     </div>
+
+    <aside class="chat" aria-label="On this page">
+      <div class="chatInner">ChatKit goes here</div>
+    </aside>
   </article>
 </BaseLayout>
 
-<style></style>
+<style>
+  .article {
+    position: relative;
+  }
+
+  .chat {
+    width: 280px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .content {
+    margin: auto;
+    max-width: 680px;
+  }
+
+  .toc {
+    width: 280px;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .workspace {
+    margin: 0 300px;
+  }
+</style>
