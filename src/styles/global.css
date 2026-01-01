@@ -51,7 +51,6 @@
        ---------------------------------------------------------------------- */
     --font-size-base: 16px;
     --line-height-body: 1.6;
-    --line-height-alt: 1.2;
 
     /* Serif: long-form reading */
     --font-serif: Charter, 'Bitstream Charter', Georgia, 'Times New Roman', serif;
@@ -96,6 +95,8 @@
   }
 
   body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
     font-size: 1.125rem;
     line-height: var(--line-height-body);
     font-family: var(--font-serif);
@@ -109,7 +110,6 @@
   h6 {
     font-family: var(--font-sans);
     font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-alt);
   }
 
   blockquote {

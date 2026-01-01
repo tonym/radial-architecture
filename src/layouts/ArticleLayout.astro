@@ -23,7 +23,7 @@ const { title, description } = Astro.props;
     </div>
 
     <aside class="chat" aria-label="On this page">
-      <div class="chatInner">ChatKit goes here</div>
+      <div class="chat-inner">ChatKit goes here</div>
     </aside>
   </article>
 </BaseLayout>
@@ -34,8 +34,11 @@ const { title, description } = Astro.props;
   }
 
   .chat {
-    width: 280px;
-    position: absolute;
+    border-left: 1px solid var(--color-border);
+    width: 340px;
+    padding: var(--space-2);
+    position: fixed;
+    bottom: 0;
     right: 0;
     top: 0;
   }
@@ -46,13 +49,17 @@ const { title, description } = Astro.props;
   }
 
   .toc {
-    width: 280px;
-    position: absolute;
+    background-color: var(--color-bg-secondary);
+    border-right: 1px solid var(--color-border);
+    bottom: 0;
     left: 0;
+    padding: var(--space-2);
+    position: fixed;
     top: 0;
+    width: 280px;
   }
 
   .workspace {
-    margin: 0 300px;
+    margin: 0 350px 0 290px;
   }
 </style>
