@@ -29,8 +29,32 @@ const { title = 'Radial Architecture' } = Astro.props;
   </head>
 
   <body>
+    <div class="top-bar">
+      <span class="brand">Radial Architecture</span>
+    </div>
     <main>
       <slot />
     </main>
   </body>
 </html>
+
+<style>
+  .top-bar {
+    background-color: var(--color-brand);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    position: fixed;
+    height: 68px;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .brand {
+    color: var(--color-weak);
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    font-weight: var(--font-weight-medium);
+  }
+</style>

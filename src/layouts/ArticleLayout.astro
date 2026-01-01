@@ -11,7 +11,6 @@ const { title, description } = Astro.props;
 
 <BaseLayout title={title ? `${title} · Radial Architecture` : 'Radial Architecture'}>
   <article class="article">
-    <!-- Left navigation will live here. -->
     <aside class="toc" aria-label="On this page">
       <div class="toc-inner">Table of contents goes here</div>
     </aside>
@@ -31,6 +30,7 @@ const { title, description } = Astro.props;
 <style>
   .article {
     position: relative;
+    padding-top: 68px;
   }
 
   .chat {
@@ -40,7 +40,7 @@ const { title, description } = Astro.props;
     position: fixed;
     bottom: 0;
     right: 0;
-    top: 0;
+    top: 68px;
   }
 
   .content {
@@ -55,7 +55,7 @@ const { title, description } = Astro.props;
     left: 0;
     padding: var(--space-2);
     position: fixed;
-    top: 0;
+    top: 68px;
     width: 280px;
   }
 
