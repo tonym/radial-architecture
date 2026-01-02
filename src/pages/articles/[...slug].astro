@@ -1,0 +1,28 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { frontmatter } from '../../content/articles/radial-architecture.mdx';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('articles');
+  return posts.map((post: CollectionEntry<'articles'>) => ({
+    params: { slug: post.slug },
+    props: post
+  }));
+}
+type Props = CollectionEntry<'articles'>;
+
+const post = Astro.props as Props;
+const { Content, headings } = await render(post);
+const chapters = headings.filter((h: MarkdownHeading) => h.depth === 2);
+
+export const prerender = true;
+
+const title = frontmatter?.title ?? 'Radial Architecture';
+const description = frontmatter?.description;
+---
+
+<ArticleLayout chapters={chapters} title={title} description={description}>
+  <Content />
+</ArticleLayout>
