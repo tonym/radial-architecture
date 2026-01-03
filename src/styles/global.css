@@ -88,10 +88,12 @@
        ---------------------------------------------------------------------- */
     --page-max-width: 72rem;
     --text-max-width: 75ch;
+    --topbar-height: 68px;
   }
 
   html {
     font-size: var(--font-size-base);
+    scroll-behavior: smooth;
   }
 
   body {
@@ -100,6 +102,17 @@
     font-size: 1.125rem;
     line-height: var(--line-height-body);
     font-family: var(--font-serif);
+  }
+
+  a {
+    color: inherit;
+    display: block;
+    padding: 0.25rem 0;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-accent);
   }
 
   h1,
@@ -144,6 +157,15 @@
     height: auto;
     max-width: 100%;
     width: auto;
+  }
+
+  main {
+    position: relative;
+    padding-top: var(--topbar-height);
+  }
+
+  article h2 {
+    scroll-margin-top: calc(var(--topbar-height) + 16px);
   }
 }
 

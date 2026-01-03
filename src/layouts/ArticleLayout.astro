@@ -20,11 +20,11 @@ console.log(chapters.length);
 <BaseLayout title={title ? `${title} · Radial Architecture` : 'Radial Architecture'}>
   <article class="article">
     <aside class="toc" aria-label="On this page">
-      <div class="toc-inner">
+      <nav class="toc-inner">
         {
           chapters.length ? (
             <span>
-              <h2>Chapters</h2>
+              <h3>Chapters</h3>
               <ul>
                 {chapters.map(ch => (
                   <li>
@@ -35,7 +35,7 @@ console.log(chapters.length);
             </span>
           ) : null
         }
-      </div>
+      </nav>
     </aside>
 
     <div class="workspace">
@@ -45,17 +45,12 @@ console.log(chapters.length);
     </div>
 
     <aside class="chat" aria-label="On this page">
-      <div class="chat-inner">ChatKit goes here</div>
+      <div class="chat-inner"></div>
     </aside>
   </article>
 </BaseLayout>
 
 <style>
-  .article {
-    position: relative;
-    padding-top: 68px;
-  }
-
   .chat {
     border-left: 1px solid var(--color-border);
     width: 340px;
@@ -80,6 +75,16 @@ console.log(chapters.length);
     position: fixed;
     top: 68px;
     width: 280px;
+  }
+
+  .toc-inner ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc-inner ul li {
+    margin: 0;
   }
 
   .workspace {
