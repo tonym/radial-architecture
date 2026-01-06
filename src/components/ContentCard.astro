@@ -1,0 +1,36 @@
+---
+export interface ContentCardProps {
+  variant?: 'default' | 'compact';
+  title: string;
+  href: string;
+  description?: string;
+  primaryImage?: string;
+  secondaryImage?: string;
+  meta?: string;
+}
+
+const { variant = 'default', title, href, description, eyebrow, meta, primaryImage, secondaryImage } = Astro.props;
+---
+
+<article class={`content-card content-card--${variant}`}>
+  <a href={href} class="content-card__link">
+    {
+      primaryImage && (
+        <figure class="content-card__media">
+          <img src={primaryImage} alt="" loading="lazy" />
+          {secondaryImage && <img src={secondaryImage} alt="" class="content-card__media--secondary" loading="lazy" />}
+        </figure>
+      )
+    }
+
+    <div class="content-card__body">
+      {eyebrow && <p class="content-card__eyebrow">{eyebrow}</p>}
+
+      <h2 class="content-card__title">{title}</h2>
+
+      {description && <p class="content-card__description">{description}</p>}
+
+      {meta && <p class="content-card__meta">{meta}</p>}
+    </div>
+  </a>
+</article>
