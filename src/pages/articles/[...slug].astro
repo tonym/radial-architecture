@@ -7,7 +7,7 @@ import { frontmatter } from '../../content/articles/radial-architecture.mdx';
 export async function getStaticPaths() {
   const posts = await getCollection('articles');
   return posts.map((post: CollectionEntry<'articles'>) => ({
-    params: { slug: post.slug },
+    params: { slug: post.data.slug },
     props: post
   }));
 }

@@ -20,6 +20,7 @@ const baseFrontmatter = z.object({
 });
 
 const articleFrontmatter = baseFrontmatter.extend({
+  slug: z.string(),
   canonicalUrl: z.string().url().optional(),
   seo: z
     .object({
