@@ -5,8 +5,6 @@ export interface ContentCardProps {
   href?: string;
   description?: string;
   primaryImage?: string;
-  secondaryImage?: string;
-  meta?: string;
 }
 
 const { variant = 'default', title, href, description, meta, primaryImage, secondaryImage } = Astro.props;
@@ -30,6 +28,7 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
 
           {meta && <p class="content-card__meta">{meta}</p>}
         </div>
+        <span class="content-card__cta">Read the article</span>
       </a>
     ) : (
       <span class="content-card__static">
@@ -51,3 +50,13 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
     )
   }
 </article>
+
+<style>
+  .content-card__cta {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: underline;
+  }
+</style>

@@ -1,8 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ContentCard from '../components/ContentCard.astro';
 import { composeArticleLink } from '../lib/composeArticleLink';
+import { getEntry } from 'astro:content';
 
-const articleHref = composeArticleLink('radial-architecture');
+const article = await getEntry('articles', 'radial-architecture');
+
+if (!article) {
+  throw new Error('Article not found: radial-architecture');
+}
+
+const { title, primaryDescription, primaryImage } = article.data;
+
+const articleHref = composeArticleLink(article.data.slug);
 ---
 
 <BaseLayout title="Radial Architecture">
@@ -11,7 +21,7 @@ const articleHref = composeArticleLink('radial-architecture');
     <p class="lede">Notes on composable commerce, modular systems, and AI-integrated pipelines.</p>
 
     <nav class="links" aria-label="Primary">
-      <a class="link" href={articleHref}>Read the article</a>
+      <ContentCard title={title} href={articleHref} description={primaryDescription} primaryImage={primaryImage} />
     </nav>
   </section>
 </BaseLayout>
