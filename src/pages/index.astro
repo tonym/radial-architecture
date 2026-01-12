@@ -16,12 +16,15 @@ const articleHref = composeArticleLink(article.data.slug);
 ---
 
 <BaseLayout title="Radial Architecture">
-  <section class="hero">
-    <h1 class="title">Radial Architecture</h1>
-    <p class="lede">Notes on composable commerce, modular systems, and AI-integrated pipelines.</p>
-
-    <nav class="links" aria-label="Primary">
-      <ContentCard title={title} href={articleHref} description={primaryDescription} primaryImage={primaryImage} />
-    </nav>
-  </section>
+  <div class="card-container">
+    <ContentCard title={title} href={articleHref} description={primaryDescription} primaryImage={primaryImage} />
+  </div>
 </BaseLayout>
+
+<style>
+  .card-container {
+    display: flex;
+    justify-content: center;
+    margin-top: calc(var(--space-6) * 2);
+  }
+</style>
