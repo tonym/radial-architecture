@@ -54,25 +54,6 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
 </div>
 
 <style>
-  @media screen and (min-width: 1024px) {
-    .content-card {
-      max-width: 1240px;
-    }
-
-    .content-card-workspace {
-      display: flex;
-      gap: var(--space-2);
-    }
-
-    .content-card-body {
-      align-items: flex-start;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      margin: var(--space-1-5) 0;
-    }
-  }
-
   .content-card {
     margin: var(--space-3);
   }
@@ -94,8 +75,9 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
   }
 
   .content-card-media img {
-    height: 100%;
+    height: 120px;
     object-fit: cover;
+    width: 100%;
   }
 
   .content-card-cta {
@@ -109,5 +91,30 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
     padding: var(--space-1) var(--space-2);
     text-transform: uppercase;
     width: auto;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .content-card {
+      max-width: 1240px;
+    }
+
+    .content-card-workspace {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .content-card-media img {
+      height: 100%;
+      max-width: 360px;
+      width: auto;
+    }
+
+    .content-card-body {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: var(--space-1-5) 0;
+    }
   }
 </style>
