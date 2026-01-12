@@ -22,9 +22,11 @@ const articleHref = composeArticleLink(article.data.slug);
 </BaseLayout>
 
 <style>
-  .card-container {
-    display: flex;
-    justify-content: center;
-    margin-top: calc(var(--space-6) * 2);
+  @media screen and (min-width: 1080px) {
+    .card-container {
+      display: flex;
+      justify-content: center;
+      margin-top: calc(var(--space-6) * 2);
+    }
   }
 </style>
