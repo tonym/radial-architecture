@@ -1,9 +1,11 @@
 ---
+import { map } from 'astro:schema';
+
 export interface ContentCardProps {
   variant?: 'default' | 'compact';
   title: string;
   href?: string;
-  description?: string;
+  description?: string[];
   primaryImage?: string;
 }
 
@@ -25,7 +27,9 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
           <div class="content-card-content">
             <h2 class="content-card-title">{title}</h2>
 
-            {description && <p class="content-card-description">{description}</p>}
+            {description?.map((para: string) => {
+              return <p class="content-card-description">{para}</p>;
+            })}
 
             {meta && <p class="content-card-meta">{meta}</p>}
           </div>
@@ -44,7 +48,9 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
         <div class="content-card-body">
           <h2 class="content-card-title">{title}</h2>
 
-          {description && <p class="content-card-description">{description}</p>}
+          {description?.map((para: string) => {
+            return <p class="content-card-description">{para}</p>;
+          })}
 
           {meta && <p class="content-card-meta">{meta}</p>}
         </div>
@@ -55,7 +61,11 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
 
 <style>
   .content-card {
-    margin: var(--space-3);
+    width: 100%;
+  }
+
+  .content-card-body {
+    margin: var(--space-1-5) 0;
   }
 
   .content-card-body h2 {
@@ -88,9 +98,14 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
     font-family: var(--font-sans);
     font-size: 1rem;
     font-weight: 500;
+    margin-top: var(--space-1);
     padding: var(--space-1) var(--space-2);
     text-transform: uppercase;
     width: auto;
+  }
+
+  .content-card-description {
+    margin: 0 0 var(--space-1) 0;
   }
 
   @media screen and (min-width: 1024px) {
@@ -114,7 +129,6 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      margin: var(--space-1-5) 0;
     }
   }
 </style>

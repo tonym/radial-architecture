@@ -8,7 +8,7 @@ const baseFrontmatter = z.object({
   subtitle: z.string().optional(),
   bullet: z.string().optional(),
   summary: z.string().optional(),
-  primaryDescription: z.string(),
+  primaryDescription: z.array(z.string()),
   secondaryDescription: z.string().optional(),
   primaryImage: z.string().optional(),
   secondaryImage: z.string().optional(),
