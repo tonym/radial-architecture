@@ -8,15 +8,16 @@ const baseFrontmatter = z.object({
   subtitle: z.string().optional(),
   bullet: z.string().optional(),
   summary: z.string().optional(),
-  primaryDescription: z.string(),
-  secondaryDescription: z.string().optional(),
+  primaryDescription: z.array(z.string()),
+  secondaryDescription: z.array(z.string()).optional(),
   primaryImage: z.string().optional(),
   secondaryImage: z.string().optional(),
   publishedAt: z.string(),
   updatedAt: z.string(),
   endingAt: z.string().optional(),
   type: z.string().optional(),
-  tags: z.array(z.string()).optional()
+  tags: z.array(z.string()).optional(),
+  listed: z.boolean().default(false)
 });
 
 const articleFrontmatter = baseFrontmatter.extend({
