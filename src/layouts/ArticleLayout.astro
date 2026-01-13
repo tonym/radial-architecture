@@ -15,7 +15,6 @@ interface Props {
 }
 
 const { chapters = [], title, description } = Astro.props;
-console.log(chapters.length);
 ---
 
 <BaseLayout title={title ? `${title} · Radial Architecture` : 'Radial Architecture'}>

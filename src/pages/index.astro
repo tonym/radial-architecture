@@ -2,17 +2,20 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContentCard from '../components/ContentCard.astro';
 import { composeArticleLink } from '../lib/composeArticleLink';
-import { getEntry } from 'astro:content';
+import { getEntry, render } from 'astro:content';
 
 const comp = await getEntry('comps', 'welcome');
 const article = await getEntry('articles', 'radial-architecture');
+const footer = await getEntry('articles', 'radial-architecture-overview');
 
-if (!article || !comp) {
+if (!article || !comp || !footer) {
   throw new Error('Article or comp not found');
 }
 
 const { title: articleTitle, primaryDescription: articlePrimaryDescription, primaryImage: articlePrimaryImage } = article.data;
 const { title: compTitle, primaryDescription: compPrimaryDescription } = comp.data;
+const { title: footerTitle } = footer.data;
+const { Content } = await render(footer);
 
 const articleHref = composeArticleLink(article.data.slug);
 ---
@@ -23,6 +26,14 @@ const articleHref = composeArticleLink(article.data.slug);
     <ContentCard title="Articles" />
     <ContentCard title={articleTitle} href={articleHref} description={articlePrimaryDescription} primaryImage={articlePrimaryImage} />
   </div>
+  <div class="footer-container">
+    <div class="footer-content-container">
+      <ContentCard title={footerTitle} description={[]} />
+      <div class="footer-content prose">
+        <Content />
+      </div>
+    </div>
+  </div>
 </BaseLayout>
 
 <style>
@@ -31,5 +42,26 @@ const articleHref = composeArticleLink(article.data.slug);
     flex-direction: column;
     align-items: center;
     margin: calc(var(--space-1) * 2) var(--space-3);
+  }
+
+  .footer-container {
+    background-color: var(--color-bg-secondary);
+    margin-top: calc(var(--space-6) * 1.5);
+    padding-top: var(--space-3);
+    padding-bottom: calc(var(--space-6) * 3);
+    width: 100%;
+  }
+
+  .footer-content {
+    margin-top: -32px;
+  }
+
+  .footer-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1240px;
+    margin: auto;
+    padding: calc(var(--space-1) * 2) var(--space-3);
   }
 </style>
