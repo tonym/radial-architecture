@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Radial Architecture' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="stylesheet" href="/fonts/fonts.css" />
+
+    <link rel="preload" href="/fonts/charter/charter_regular.woff2" as="font" type="font/woff2" crossorigin />
+
+    <!--
+      Intentionally minimal.
+      Typography, color, and layout rules will be introduced deliberately.
+    -->
+  </head>
+
+  <body>
+    <div class="top-bar">
+      <a class="brand" href="/">Radial Architecture</a>
+    </div>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  .top-bar {
+    background-color: var(--color-brand);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    position: fixed;
+    height: 68px;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .brand {
+    color: var(--color-weak);
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    font-weight: var(--font-weight-medium);
+  }
+</style>

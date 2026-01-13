@@ -1,0 +1,120 @@
+---
+export interface ContentCardProps {
+  variant?: 'default' | 'compact';
+  title: string;
+  href?: string;
+  description?: string;
+  primaryImage?: string;
+}
+
+const { variant = 'default', title, href, description, meta, primaryImage, secondaryImage } = Astro.props;
+---
+
+<div class={`content-card content-card--${variant}`}>
+  {
+    href ? (
+      <a href={href} class="content-card-workspace content-card-link">
+        {primaryImage && (
+          <figure class="content-card-media">
+            <img src={primaryImage} alt="" loading="lazy" />
+            {secondaryImage && <img src={secondaryImage} alt="" class="content-card-media--secondary" loading="lazy" />}
+          </figure>
+        )}
+
+        <div class="content-card-body">
+          <div class="content-card-content">
+            <h2 class="content-card-title">{title}</h2>
+
+            {description && <p class="content-card-description">{description}</p>}
+
+            {meta && <p class="content-card-meta">{meta}</p>}
+          </div>
+          <span class="content-card-cta">Read the article</span>
+        </div>
+      </a>
+    ) : (
+      <span class="content-card-workpsace content-card-static">
+        {primaryImage && (
+          <figure class="content-card-media">
+            <img src={primaryImage} alt="" loading="lazy" />
+            {secondaryImage && <img src={secondaryImage} alt="" class="content-card-media--secondary" loading="lazy" />}
+          </figure>
+        )}
+
+        <div class="content-card-body">
+          <h2 class="content-card-title">{title}</h2>
+
+          {description && <p class="content-card-description">{description}</p>}
+
+          {meta && <p class="content-card-meta">{meta}</p>}
+        </div>
+      </span>
+    )
+  }
+</div>
+
+<style>
+  .content-card {
+    margin: var(--space-3);
+  }
+
+  .content-card-body h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 0;
+  }
+
+  .content-card-workspace:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .content-card-media {
+    margin: 0;
+  }
+
+  .content-card-media img {
+    height: 120px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .content-card-cta {
+    background-color: var(--color-accent);
+    border-radius: var(--space-0-5);
+    color: var(--color-weak);
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    padding: var(--space-1) var(--space-2);
+    text-transform: uppercase;
+    width: auto;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .content-card {
+      max-width: 1240px;
+    }
+
+    .content-card-workspace {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    .content-card-media img {
+      height: 100%;
+      max-width: 360px;
+      width: auto;
+    }
+
+    .content-card-body {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin: var(--space-1-5) 0;
+    }
+  }
+</style>

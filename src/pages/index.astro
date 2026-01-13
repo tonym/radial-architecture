@@ -1,11 +1,32 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContentCard from '../components/ContentCard.astro';
+import { composeArticleLink } from '../lib/composeArticleLink';
+import { getEntry } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const article = await getEntry('articles', 'radial-architecture');
+
+if (!article) {
+  throw new Error('Article not found: radial-architecture');
+}
+
+const { title, primaryDescription, primaryImage } = article.data;
+
+const articleHref = composeArticleLink(article.data.slug);
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title="Radial Architecture">
+  <div class="card-container">
+    <ContentCard title={title} href={articleHref} description={primaryDescription} primaryImage={primaryImage} />
+  </div>
+</BaseLayout>
+
+<style>
+  @media screen and (min-width: 1080px) {
+    .card-container {
+      display: flex;
+      justify-content: center;
+      margin-top: calc(var(--space-6) * 2);
+    }
+  }
+</style>

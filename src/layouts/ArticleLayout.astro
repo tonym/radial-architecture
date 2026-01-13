@@ -1,0 +1,158 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import leftPanelClose from '../assets/left_panel_close.svg';
+
+interface Chapter {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  chapters?: Chapter[];
+  description?: string;
+  title?: string;
+}
+
+const { chapters = [], title, description } = Astro.props;
+console.log(chapters.length);
+---
+
+<BaseLayout title={title ? `${title} · Radial Architecture` : 'Radial Architecture'}>
+  <article class="article">
+    <aside class="toc" aria-label="On this page">
+      <img src={leftPanelClose.src} id="toc-toggle" class="toc-toggle" width="24" height="24" alt="table of contents icon" />
+      <nav class="toc-inner">
+        {
+          chapters.length ? (
+            <span>
+              <h3>Chapters</h3>
+              <ul>
+                {chapters.map(ch => (
+                  <li>
+                    <a href={`#${ch.slug}`}>{ch.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </span>
+          ) : null
+        }
+      </nav>
+    </aside>
+
+    <div class="workspace">
+      <div class="content">
+        <slot />
+      </div>
+    </div>
+
+    <aside class="chat" aria-label="On this page">
+      <div class="chat-inner"></div>
+    </aside>
+  </article>
+</BaseLayout>
+
+<script>
+  const mediaQuery = window.matchMedia('(max-width: 1024px)');
+  const toggle = document.getElementById('toc-toggle');
+  const article = document.querySelector('.article');
+  if (toggle && article) {
+    toggle.onclick = function () {
+      console.log('toc toggle');
+      article.classList.toggle('closed');
+    };
+  }
+
+  function handleMediaQueryChange(event: { matches: any }) {
+    if (article) {
+      if (mediaQuery.matches) {
+        article.classList.add('closed');
+      } else {
+        article.classList.remove('closed');
+      }
+    }
+  }
+
+  mediaQuery.addEventListener('change', handleMediaQueryChange);
+
+  handleMediaQueryChange(mediaQuery);
+</script>
+
+<style>
+  .chat {
+    display: none;
+  }
+
+  .toc {
+    background-color: var(--color-bg-secondary);
+    border-right: 1px solid var(--color-border);
+    bottom: 0;
+    left: 0;
+    padding: var(--space-2);
+    position: fixed;
+    top: 68px;
+    width: 280px;
+    transition: width 0.2s ease-in-out 0.1s;
+  }
+
+  .toc-inner {
+    position: relative;
+    left: 0;
+    transition: left 0.15s ease-out 0.2s;
+    transform: translateX(0);
+  }
+
+  .toc-inner ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc-inner ul li {
+    margin: 0;
+  }
+
+  .toc-toggle {
+    min-width: 24px;
+    min-height: 24px;
+  }
+
+  .workspace {
+    margin: 0 24px 0 78px;
+  }
+
+  .article.closed .toc {
+    width: 54px;
+  }
+
+  .article.closed .toc-inner {
+    left: -300px;
+    transition: left 0.1s ease-out 0.15s;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .chat {
+      border-left: 1px solid var(--color-border);
+      display: block;
+      width: 340px;
+      padding: var(--space-2);
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      top: 68px;
+    }
+
+    .content {
+      margin: auto;
+      /* max-width: 680px; */
+    }
+
+    .workspace {
+      margin: 0 388px 0 338px;
+    }
+
+    .article.closed .workspace {
+      margin: 0 368px 0 78px;
+    }
+  }
+</style>
