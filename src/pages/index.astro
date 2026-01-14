@@ -22,7 +22,7 @@ const articleHref = composeArticleLink(article.data.slug);
 
 <BaseLayout title="Radial Architecture">
   <div class="card-container">
-    <ContentCard title={compTitle} description={compPrimaryDescription} />
+    <ContentCard class="big-title" title={compTitle} description={compPrimaryDescription} />
     <ContentCard title="Articles" />
     <ContentCard title={articleTitle} href={articleHref} description={articlePrimaryDescription} primaryImage={articlePrimaryImage} />
   </div>
@@ -44,6 +44,11 @@ const articleHref = composeArticleLink(article.data.slug);
     margin: calc(var(--space-1) * 2) var(--space-3);
   }
 
+  .big-title :global(h2) {
+    font-size: 4rem !important;
+    margin-bottom: var(--space-3);
+  }
+
   .footer-container {
     background-color: var(--color-bg-secondary);
     margin-top: calc(var(--space-6) * 1.5);
@@ -60,7 +65,7 @@ const articleHref = composeArticleLink(article.data.slug);
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 1240px;
+    max-width: 980px;
     margin: auto;
     padding: calc(var(--space-1) * 2) var(--space-3);
   }
