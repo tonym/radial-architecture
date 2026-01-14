@@ -9,10 +9,10 @@ export interface ContentCardProps {
   primaryImage?: string;
 }
 
-const { variant = 'default', title, href, description, meta, primaryImage, secondaryImage } = Astro.props;
+const { variant = 'default', title, href, description, meta, primaryImage, secondaryImage, class: className = '', ...rest } = Astro.props;
 ---
 
-<div class={`content-card content-card--${variant}`}>
+<div class:list={[`content-card content-card--${variant}`, className]} {...rest}>
   {
     href ? (
       <a href={href} class="content-card-workspace content-card-link">
@@ -134,7 +134,7 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
 
   @media screen and (min-width: 1024px) {
     .content-card {
-      max-width: 1240px;
+      max-width: 980px;
     }
 
     .content-card-workspace {
