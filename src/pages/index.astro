@@ -2,7 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContentCard from '../components/ContentCard.astro';
 import { composeArticleLink } from '../lib/composeArticleLink';
-import { getEntry, render } from 'astro:content';
+import { getEntry } from 'astro:content';
+import EnvelopeIcon from '../assets/icons/envelope.svg';
+import GitHubIcon from '../assets/icons/github.svg';
+import LinkedInIcon from '../assets/icons/linkedin.svg';
+import MediumIcon from '../assets/icons/medium.svg';
 
 const comp = await getEntry('comps', 'welcome');
 const article = await getEntry('articles', 'radial-architecture');
@@ -13,7 +17,7 @@ if (!article || !comp || !author) {
 }
 
 const { title: articleTitle, primaryDescription: articlePrimaryDescription, primaryImage: articlePrimaryImage } = article.data;
-const { title: compTitle, primaryDescription: compPrimaryDescription } = comp.data;
+const { title: compTitle, subtitle: compSubtitle, primaryDescription: compPrimaryDescription } = comp.data;
 const { primaryDescription: authorPrimaryDescription } = author.data;
 
 const articleHref = composeArticleLink(article.data.slug);
@@ -21,15 +25,19 @@ const articleHref = composeArticleLink(article.data.slug);
 
 <BaseLayout title="Radial Architecture">
   <div class="card-container">
-    <ContentCard title={compTitle} description={compPrimaryDescription} />
+    <ContentCard title={compTitle} subtitle={compSubtitle} description={compPrimaryDescription} />
+    <hr class="divider" />
     <ContentCard title="Articles" />
     <ContentCard title={articleTitle} href={articleHref} description={articlePrimaryDescription} primaryImage={articlePrimaryImage} />
   </div>
   <div class="footer-container">
     <div class="footer-content-container">
       <ContentCard title="About the author" description={authorPrimaryDescription} />
-      <div class="footer-content prose">
-        <p></p>
+      <div class="footer-content">
+        <a class="social-link" href="https://www.linkedin.com/in/tonympdx/"><LinkedInIcon /></a>
+        <a class="social-link" href="https://github.com/tonym"><GitHubIcon /></a>
+        <a class="social-link" href="https://medium.com/@tony.m.pdx"><MediumIcon /></a>
+        <a class="social-link" href="mailto:tony+radial@fbpllc.com?subject=Radial%20Architecture"><EnvelopeIcon /></a>
       </div>
     </div>
   </div>
@@ -40,11 +48,22 @@ const articleHref = composeArticleLink(article.data.slug);
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: calc(var(--space-1) * 2) var(--space-3);
+    margin: var(--space-5-5) var(--space-3);
+  }
+
+  .divider {
+    border-top: 1px solid var(--color-weak);
+    width: 100%;
+  }
+
+  .social-link {
+    opacity: 0.7;
+    width: var(--space-3-5);
+    height: var(--space-3-5);
   }
 
   .big-title :global(h2) {
-    font-size: 4rem !important;
+    font-size: var(--space-6) !important;
     margin-bottom: var(--space-3);
   }
 
@@ -57,7 +76,10 @@ const articleHref = composeArticleLink(article.data.slug);
   }
 
   .footer-content {
-    margin-top: -32px;
+    display: flex;
+    gap: var(--space-1);
+    margin-top: -12px;
+    padding: 0.25rem;
   }
 
   .footer-content-container {
