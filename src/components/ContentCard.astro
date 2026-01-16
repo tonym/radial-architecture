@@ -1,15 +1,25 @@
 ---
-import { map } from 'astro:schema';
-
 export interface ContentCardProps {
   variant?: 'default' | 'compact';
   title: string;
   href?: string;
   description?: string[];
+  subtitle?: string;
   primaryImage?: string;
 }
 
-const { variant = 'default', title, href, description, meta, primaryImage, secondaryImage, class: className = '', ...rest } = Astro.props;
+const {
+  variant = 'default',
+  title,
+  subtitle,
+  href,
+  description,
+  meta,
+  primaryImage,
+  secondaryImage,
+  class: className = '',
+  ...rest
+} = Astro.props;
 ---
 
 <div class:list={[`content-card content-card--${variant}`, className]} {...rest}>
@@ -26,7 +36,7 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
         <div class="content-card-body">
           <div class="content-card-content">
             <h2 class="content-card-title">{title}</h2>
-
+            <h3 class="content-card-subtitle">{subtitle}</h3>
             {description?.map((para: string) => {
               return <p class="content-card-description">{para}</p>;
             })}
@@ -47,7 +57,7 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
 
         <div class="content-card-body">
           <h2 class="content-card-title">{title}</h2>
-
+          {subtitle && <h3 class="content-card-subtitle">{subtitle}</h3>}
           {description?.map((para: string) => {
             return <p class="content-card-description">{para}</p>;
           })}
@@ -126,6 +136,12 @@ const { variant = 'default', title, href, description, meta, primaryImage, secon
     padding: var(--space-1) var(--space-2);
     text-transform: uppercase;
     width: auto;
+  }
+
+  .content-card-subtitle {
+    margin-top: calc(var(--space-1) * -1);
+    font-size: 1.75rem;
+    font-weight: var(--font-weight-medium);
   }
 
   .content-card-description {
