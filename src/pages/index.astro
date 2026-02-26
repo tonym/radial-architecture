@@ -9,14 +9,15 @@ import LinkedInIcon from '../assets/icons/linkedin.svg';
 import MediumIcon from '../assets/icons/medium.svg';
 
 const comp = await getEntry('comps', 'welcome');
-const articlesDefault = await getCollection('articles');
+const articles = (await getCollection('articles')).sort(
+  (a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
+);
 const author = await getEntry('comps', 'author');
 
-if (!articlesDefault || !comp || !author) {
+if (!articles || !comp || !author) {
   throw new Error('Article or comp not found');
 }
 
-const articles = [...articlesDefault].reverse();
 const { title: compTitle, subtitle: compSubtitle, primaryDescription: compPrimaryDescription } = comp.data;
 const { primaryDescription: authorPrimaryDescription } = author.data;
 ---
