@@ -16,7 +16,7 @@ if (!articlesDefault || !comp || !author) {
   throw new Error('Article or comp not found');
 }
 
-const articles = articlesDefault.reverse();
+const articles = [...articlesDefault].reverse();
 const { title: compTitle, subtitle: compSubtitle, primaryDescription: compPrimaryDescription } = comp.data;
 const { primaryDescription: authorPrimaryDescription } = author.data;
 ---
