@@ -9,7 +9,9 @@ import LinkedInIcon from '../assets/icons/linkedin.svg';
 import MediumIcon from '../assets/icons/medium.svg';
 
 const comp = await getEntry('comps', 'welcome');
-const articles = (await getCollection('articles')).sort((a: any, b: any) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const articles = (await getCollection('articles')).sort(
+  (a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime()
+);
 const author = await getEntry('comps', 'author');
 
 if (!articles || !comp || !author) {
