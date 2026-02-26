@@ -171,6 +171,12 @@
   article h2 {
     scroll-margin-top: calc(var(--topbar-height) + 16px);
   }
+
+  .articles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
 }
 
 /* --------------------------------------------------------------------------
