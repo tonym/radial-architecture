@@ -2,25 +2,22 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContentCard from '../components/ContentCard.astro';
 import { composeArticleLink } from '../lib/composeArticleLink';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import EnvelopeIcon from '../assets/icons/envelope.svg';
 import GitHubIcon from '../assets/icons/github.svg';
 import LinkedInIcon from '../assets/icons/linkedin.svg';
 import MediumIcon from '../assets/icons/medium.svg';
 
 const comp = await getEntry('comps', 'welcome');
-const article = await getEntry('articles', 'radial-architecture');
+const articles = await getCollection('articles');
 const author = await getEntry('comps', 'author');
 
-if (!article || !comp || !author) {
+if (!articles || !comp || !author) {
   throw new Error('Article or comp not found');
 }
 
-const { title: articleTitle, primaryDescription: articlePrimaryDescription, primaryImage: articlePrimaryImage } = article.data;
 const { title: compTitle, subtitle: compSubtitle, primaryDescription: compPrimaryDescription } = comp.data;
 const { primaryDescription: authorPrimaryDescription } = author.data;
-
-const articleHref = composeArticleLink(article.data.slug);
 ---
 
 <BaseLayout title="Radial Architecture">
@@ -28,7 +25,22 @@ const articleHref = composeArticleLink(article.data.slug);
     <ContentCard title={compTitle} subtitle={compSubtitle} description={compPrimaryDescription} />
     <hr class="divider" />
     <ContentCard title="Articles" />
-    <ContentCard title={articleTitle} href={articleHref} description={articlePrimaryDescription} primaryImage={articlePrimaryImage} />
+    <div class="articles">
+      {
+        articles
+          .reverse()
+          .map(article =>
+            article.data.listed ? (
+              <ContentCard
+                title={article.data.title}
+                href={composeArticleLink(article.data.slug)}
+                description={article.data.primaryDescription}
+                primaryImage={article.data.primaryImage}
+              />
+            ) : null
+          )
+      }
+    </div>
   </div>
   <div class="footer-container">
     <div class="footer-content-container">

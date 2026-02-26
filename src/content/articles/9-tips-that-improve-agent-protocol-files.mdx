@@ -1,0 +1,314 @@
+---
+title: 9 tips that improve agent protocol files
+slug: 9-tips-that-improve-agent-protocol-files
+subtitle: "Make your AI workflow a reliable system, not a game of chance."
+bullet: "Reliable AI agent protocol files"
+summary: "Several ways to make agent protocol files more deterministic and reliable."
+primaryDescription:
+  - Agent protocol files shouldn't leave things to chance. Here are some ways to improve protocol files for increased reliability and predictabilty in a radial system.
+secondaryDescription: []
+primaryImage: "https://cdn-images-1.medium.com/max/1600/1*XgzSY-48-djUxm_y-zLonQ.jpeg" # optional
+secondaryImage: "" # optional
+publishedAt: "2026-02-26" # Medium publish date
+updatedAt: "2026-02-26"   # latest revision date
+listed: true
+type: "article"
+tags: []
+---
+
+# 9 tips that improve agent protocol files
+
+![Slot machine representing chance and variability.](https://cdn-images-1.medium.com/max/1600/1*XgzSY-48-djUxm_y-zLonQ.jpeg)
+
+Protocol files are machine-facing context documents that live alongside code. They are not instructions for humans. They are constraint layers written explicitly for automated contributors.
+
+If you're shipping with agents in the loop, you are likely already using them in some form. Different ecosystems use different names — AGENTS, CLAUDE, etc. — but the job is the same. Protocol files define what automation may do, must not do, and what to do when it can't proceed safely.
+
+It's easy to write a protocol file that sounds reasonable and still fails under stress. A “helpful” paragraph becomes ambiguous, or a rule that feels obvious splits into three interpretations across three models. Drift rarely arrives as a single mistake. Drift shows up as small ambiguities that snowball into inconsistent outcomes.
+
+Here's the challenge. Write protocol files that are deterministic enough to trust. They don't have to be perfect, just solid enough so that different automated contributors converge on the same decisions, the same escalation points, and the same artifacts. If automation feels boring and consistent, you got it right.
+
+The listed tips are lessons learned in real-world environments. If you'd like examples, Prism ([https://github.com/tonym/prism](https://medium.com/r/?url=https%3A%2F%2Fgithub.com%2Ftonym%2Fprism)) is a useful reference system that organizes protocol files in an AGENTS folder, named according to the repo's protocol-naming convention. It's an evolving repo for an AI-integrated, composable system that demands unusually thorough protocol files.
+
+## Tip 1 — Write for the machine, not the reader
+
+Protocol files live next to code, which tempts us to write them like documentation. That's the trap. Documentation can be conversational, persuasive, and context-rich, but protocol files cannot. Protocol is an interface that punishes ambiguity.
+
+### **Failure mode**
+
+You write “helpful” prose that reads well to humans, and the agent treats it as optional guidance. Or the agent treats it as permission to improvise.
+
+For instance, if you prefer your git history to be a series of small commits rather than one or two big ones, and your protocol says, “prefer several small commits over one large commit,” the agent will infer that a condition exists in which a large commit is OK. The better choice is a statement without ambiguity, such as “always use several small commits, never one large commit,” or one that clearly names the exceptions, “prefer small commits, except for generated files or mechanical renames,” instead of leaving the agent to infer when “prefer” stops applying.
+
+### **Pattern**
+
+Prefer instructions that can be followed without “reading between the lines.”
+
+*   Use concrete verbs and constrained nouns.
+*   Name the artifacts you expect.
+*   Name the tools allowed, the tools disallowed, and the stop points.
+*   Avoid narrative rationale inside the protocol file. If you must explain, link out.
+
+### **Tiny example (tone shift)**
+
+*   Human-friendly: “Try to keep changes minimal and sensible.”
+*   Machine-friendly: “Limit changes to the files listed below. Do not refactor unrelated code. If a needed change touches other directories, stop and escalate with evidence.”
+
+### **Tiny example (constraint)**
+
+*   Human-friendly: “Use MCP servers when in doubt or when you don't have the information you need to perform the task.”
+*   Machine-friendly: “Use X MCP server to look up Y documentation to understand Z.”
+
+### Comprehensive example
+
+For a complete example, here is a protocol file for a UI domain in a monorepo, [https://github.com/tonym/prism/blob/develop/AGENTS/UI\_CORE.md](https://medium.com/r/?url=https%3A%2F%2Fgithub.com%2Ftonym%2Fprism%2Fblob%2Fdevelop%2FAGENTS%2FUI_CORE.md). Notice how the language is direct, terse, and, to a human eye, overly direct. This is the correct tone for an agent that does not understand inference or allusion.
+
+### **What to keep asking yourself**
+
+If two different agents read this, will they make the same call?
+
+## Tip 2 — Standardize vernacular
+
+Agents are literalists with strong opinions. Your protocol file should not rely on shared intuition. The fastest way to reduce interpretation drift is to standardize a small dialect that your repo uses everywhere, with consistent system terms and direct, unambiguous directives.
+
+### **Failure mode**
+
+Synonyms multiply. “Stop,” “pause,” “hold,” “block,” and “escalate” get used interchangeably. Agents treat them as vibes, not control flow.
+
+Similarly, system terms often accumulate synonyms for human readability, such as “API,” “endpoint,” “remote interface,” etc., which facilitate rhythm and flow by avoiding duplication, but can confuse an agent when used interchangeably. Stick with an agreed-upon system vernacular where each thing has only one name.
+
+### **Pattern**
+
+Define a house dialect once, then reuse it as a style guide for agents. Do not include it in a human-facing style guide.
+
+*   Modal verbs: **MUST / SHOULD / MAY / MUST NOT**
+*   Control verbs: **STOP / ESCALATE / REFUSE / CONTINUE**
+*   Workflow nouns: **PLAN / EXECUTION / EVIDENCE / OUTPUTS**
+*   Decision nouns: **ASSUMPTION / RISK / CONSTRAINT**
+
+### **Recommendation**
+
+Add a small “Dialect” section or glossary near the top of your root protocol file and keep it stable.
+
+### **Mini checklist**
+
+*   Do you use one verb for “halt work now?” (Pick one: STOP.)
+*   Do you use one verb for “handoff needed?” (Pick one: ESCALATE.)
+*   Do you use one word for “proof you collected?” (Pick one: EVIDENCE.)
+*   Do you use one noun for “small stateless components” in your system model? (Pick one: PRIMITIVES.)
+
+## Tip 3 — Separate policy from procedure
+
+Policy is what defines authority. It is the system's boundaries, constraints, stop conditions, and escalation paths. Procedure is how you do a specific kind of work. Mixing them makes both weaker.
+
+### **Failure mode**
+
+A long “how-to” section hides the rule that should have stopped the agent ten minutes ago, or the agent follows steps faithfully while violating the spirit of the boundary, because the boundary was vague or softened.
+
+### **Pattern**
+
+Put policy first. Put the procedure where it belongs.
+
+*   **Policy section:** the rules that govern any task in this scope
+*   **Procedure section:** task playbooks (optional, scoped, specific)
+*   **Appendix/links:** rationale, architecture docs, onboarding, examples
+
+### **Test**
+
+If you delete every procedure step, would the policy still meaningfully constrain the agent? If not, your policy is too thin.
+
+## Tip 4 — Make stop conditions explicit and escalation paths clear
+
+This is where protocol files become trustworthy. Most failures are not “bad outputs.” They are “kept going when they should have stopped.”
+
+### **Failure mode**
+
+The agent hits ambiguity, makes a plausible assumption, and proceeds. On a good day, it's fine, but on a bad day, you get the wrong artifact, in the wrong place, with high confidence.
+
+### **Pattern**
+
+Treat STOP and ESCALATE as first-class control flow.
+
+*   Enumerate stop conditions as guard clauses.
+*   Enumerate escalation triggers separately.
+*   Specify what escalation produces, not just that it happens.
+
+### **A simple structure that works well**
+
+**STOP IF any of these are true:** (hard blocks)
+
+*   Required inputs are missing
+*   Instructions conflict
+*   The task requires authority that is not granted
+*   The change exceeds the scope boundaries
+
+**ESCALATE IF any of these are true:** (handoff needed)
+
+*   Multiple valid options exist with different consequences
+*   A contract/schema decision is required
+*   A trade-off impacts timeline, cost, or risk
+
+### **Define the escalation payload**
+
+*   Who/what it escalates to (human reviewer, orchestrator, ticket queue)
+*   Required evidence (links, diffs, logs, repo paths)
+*   A small set of options (A/B/C), each with consequences
+*   A recommended option (if allowed), plus why
+
+### **Define blocked behavior**
+
+“While blocked, do not proceed. Do not invent missing inputs. Do not broaden scope.”
+
+This one change makes protocol files feel strict, but in a reassuring way.
+
+## Tip 5 — Use multiple files aligned to domains
+
+If the repo is large, complex, or a monorepo with several projects, a single file cannot accommodate global constraints, domain-specific rules, and task playbooks in a manageable way. Protocol scales when it aligns with the system's structure.
+
+### **Failure mode**
+
+A single “mega protocol” file becomes a negotiation. Agents cherry-pick lines that support their path, and humans stop updating it because it's too hard to edit safely.
+
+### **Pattern**
+
+Layer protocol files by scope.
+
+*   **Root protocol:** global invariants, dialect, cross-cutting boundaries
+*   **Domain protocol:** local boundaries, domain tool constraints, local stop/escalate
+*   **Feature/task/role protocol (optional):** narrow playbooks for high-risk workflows
+
+### Examples
+
+*   Root protocol: [https://github.com/tonym/prism/blob/develop/AGENTS/ROOT.md](https://medium.com/r/?url=https%3A%2F%2Fgithub.com%2Ftonym%2Fprism%2Fblob%2Fdevelop%2FAGENTS%2FROOT.md)
+*   Domain protocol: [https://github.com/tonym/prism/blob/develop/AGENTS/STOREFRONT.md](https://medium.com/r/?url=https%3A%2F%2Fgithub.com%2Ftonym%2Fprism%2Fblob%2Fdevelop%2FAGENTS%2FSTOREFRONT.md)
+*   Role protocol: [https://github.com/tonym/prism/blob/develop/AGENTS/ORCHESTRATOR.md](https://medium.com/r/?url=https%3A%2F%2Fgithub.com%2Ftonym%2Fprism%2Fblob%2Fdevelop%2FAGENTS%2FORCHESTRATOR.md)
+
+### **Rule of thumb**
+
+Keep each file responsible for one scope of authority. If a rule is “true everywhere,” it belongs at the root. If it is “true here,” it belongs to the domain.
+
+## Tip 6 — Build good information architecture and a manifest for precedence
+
+When multiple protocol files exist, you must tell the agent what matters most and what to read first. Otherwise, the agent will make up its own precedence rules.
+
+### **Failure mode**
+
+Conflicts appear. The agent follows the wrong file, the newest file, or the most specific file, depending on its habits, because without an explicit precedence model, agents invent one.
+
+### **Pattern**
+
+Provide a clear precedence model and a manifest.
+
+*   Define a reading order: root → domain → feature/task
+*   Define conflict resolution: “Higher precedence overrides lower precedence.”
+*   Define what to do when conflict exists: **STOP** and **ESCALATE** with evidence.
+
+### **Manifest contents (may be in the manifest, or the root protocol file, or both)**
+
+*   List of protocol files, grouped by scope
+*   Brief description of each file's authority
+*   Precedence order
+*   Where to look for domain ownership
+
+### Example
+
+*   [https://github.com/tonym/prism/blob/develop/AGENTS/PROTOCOL\_MANIFEST.yml](https://medium.com/r/?url=https%3A%2F%2Fgithub.com%2Ftonym%2Fprism%2Fblob%2Fdevelop%2FAGENTS%2FPROTOCOL_MANIFEST.yml)
+
+### **A helpful reassurance for the agent**
+
+“If you are unsure which protocol applies, STOP and ESCALATE with the candidate files and your reasoning.”
+
+## Tip 7 — Keep protocol clean
+
+Protocol files are not a dumping ground for everything you wish an agent understood. They are control surfaces. Pollution is anything that increases interpretive surface area without increasing constraint.
+
+### **Failure mode**
+
+You add rationale, background, and philosophy because you feel it's helpful. Later, the agent starts treating those paragraphs as guidance that competes with actual constraints.
+
+### **Pattern**
+
+Keep protocol files boring on purpose.
+
+*   No human onboarding/social process prose
+*   No architecture narrative
+*   No “why we do it this way” essays
+*   No best-practice lectures
+
+If you need those things, link to them in a “References” section. Protocol can point outward and should avoid reading like a blog post.
+
+### Key rule of thumb
+
+If any information about the repo is for human consumption, not agents (e.g., onboarding, architecture docs), put it in README files, not the protocol files.
+
+### **A good litmus test**
+
+If a human would highlight a paragraph as “insightful,” it likely doesn't belong in protocol.
+
+## Tip 8 — Have your agent evaluate the protocol
+
+Humans infer information from suggestive text, but agents infer intent literally. The best way to find drift points is to let a consuming agent read the protocol as if it is about to execute, then report what it sees.
+
+### **Failure mode**
+
+The author believes the protocol is clear because they know what they meant. The consuming agent experiences it as under-specified, conflicting, or permission-rich.
+
+### **Pattern**
+
+Add a lightweight “Protocol Quality Report” step to your workflow.
+
+**Ask an agent to:**
+
+*   List ambiguous phrases and overloaded verbs
+*   Identify missing stop conditions and unclear escalation triggers
+*   Identify gaps that would induce drift
+*   Identify conflicts across files and precedence confusion
+*   Identify undefined terms and implicit assumptions
+*   Highlight “helpful” language that could be misread as permission
+*   Propose concrete edits, not general advice
+
+### **A simple report format to standardize**
+
+*   **Severity 1:** likely to cause unsafe action (must fix)
+*   **Severity 2:** likely to cause drift or inconsistency (should fix)
+*   **Severity 3:** style/clarity improvements (nice to have)
+
+### Next-level expert hint
+
+Have an agent draft the protocol if it helps, but treat the result as an interface, run the Protocol Quality Report, fix what it flags, and prefer explicit constraints over “helpful” prose.
+
+### **A note on tone**
+
+This is not about judging the human author. It is about making the protocol more legible to the thing that will obey it.
+
+## Tip 9 — Treat protocol changes like API changes
+
+Protocol is an interface between humans, agents, and the repo. Interfaces have contracts. Contracts need stability. Casual edits create semantic drift that is hard to detect until it hurts.
+
+### **Failure mode**
+
+A small “wording improvement” changes the meaning, a new constraint silently conflicts with an older one, or a domain protocol drifts away from the root dialect and becomes a fork.
+
+### **Pattern**
+
+Handle protocol changes with the same care you handle breaking API changes.
+
+*   Record semantic intent: “What changed, and why?”
+*   Note behavioral deltas: “What will the agent do differently now?”
+*   Re-run the protocol evaluation report (Tip 8)
+*   Prefer additive, explicit changes over subtle rewrites
+*   Keep a short changelog for the root protocol and high-risk domains
+
+### **Reassuring framing**
+
+This isn't bureaucracy, but how you keep automation repeatable when the team, the models, and the codebase keep changing.
+
+## Conclusion
+
+Protocol files are about making outcomes repeatable. They don't make agents smarter, but they do make the system reliable.
+
+When they're shaped well, the system becomes predictable, so an agent stops when it should and avoids inventing authority to fill gaps in protocols that are too permissive or incomplete. The quiet reliability of well-honed protocol files is what allows AI to act as a force multiplier and for the system to scale to enterprise levels.
+
+The nine tips in this piece are not rules to obey, but a set of stress-tested patterns that make protocol files easier for machines to read, easier for teams to maintain, and harder for drift to hide inside “reasonable” language. Your environment will vary, as will your repo structure, and you may have different levels of risk tolerance. However, the spirit holds as a way to reduce ambiguity, constrain authority, and make escalation and evaluation part of the normal workflow.
+
+The goal is not perfect protocols, rather, a “deterministic enough” set of machine-facing files that allow your automated contributors to behave like reliable teammates, boring when things are routine, cautious when things are unclear, and transparent when they need escalation.
