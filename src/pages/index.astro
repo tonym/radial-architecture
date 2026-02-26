@@ -27,18 +27,16 @@ const { primaryDescription: authorPrimaryDescription } = author.data;
     <ContentCard title="Articles" />
     <div class="articles">
       {
-        articles
-          .reverse()
-          .map(article =>
-            article.data.listed ? (
-              <ContentCard
-                title={article.data.title}
-                href={composeArticleLink(article.data.slug)}
-                description={article.data.primaryDescription}
-                primaryImage={article.data.primaryImage}
-              />
-            ) : null
-          )
+        articles.map(article =>
+          article.data.listed ? (
+            <ContentCard
+              title={article.data.title}
+              href={composeArticleLink(article.data.slug)}
+              description={article.data.primaryDescription}
+              primaryImage={article.data.primaryImage}
+            />
+          ) : null
+        )
       }
     </div>
   </div>
